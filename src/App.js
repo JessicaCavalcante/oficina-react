@@ -1,23 +1,47 @@
-import logo from './logo.svg';
 import './App.css';
+import User from './components/User';
+import React, {useState, useEffect} from 'react';
 
-function App() {
+const data = [
+  {
+    name: 'Isa',
+    description: 'Gosta de sorvete'
+  },
+  {
+    name: 'Cintia',
+    description: 'Gosta de goiabada cascão'
+  },
+  {
+    name: 'Cintia',
+    description: 'Gosta de mousse'
+  }
+];
+
+const App = () => {
+  const [users, setUsers] = useState(data);
+  const [name, setName] = useState(''); 
+  const [description, setDescription] = useState('');
+
+  const [pokemons, setPokemons] = useState([]);
+
+  useEffect(() => {
+    fetch('https://pokeapi.co/api/v2/type/5')
+      .then(result => result.json())
+        .then(result => {
+          console.log(result)
+          setPokemons(result.pokemon)
+        })
+      }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <section>
+      {
+        pokemons.map(pokemon => (
+          <p> {pokemon.pokemon.name}</p>
+        ))
+      }
+      </section>
     </div>
   );
 }
